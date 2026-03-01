@@ -1,0 +1,53 @@
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres:14.3
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      PGDATA: /data/postgres
+    volumes:
+      - postgres_data:/data/postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - backend_network
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - backend_network
+    restart: unless-stopped
+
+  mongo-db:
+    container_name: mongo_container
+    image: mongo:7.0.5-rc0
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: sa
+      MONGO_INITDB_ROOT_PASSWORD: sa
+    volumes:
+      - mongo_data:/data/db # <--- ¡IMPORTANTE: Aquí persiste la data!
+    ports:
+      - "27017:27017"
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+  mongo_data:
