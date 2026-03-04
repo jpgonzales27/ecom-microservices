@@ -55,6 +55,11 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    public Optional<ProductResponse> getProductById(String id) {
+        return productRepository.findByIdAndActiveTrue(Long.valueOf(id))
+                .map(this::mapToProductResponse);
+    }
+
     private ProductResponse mapToProductResponse(Product savedProduct) {
         ProductResponse response = new ProductResponse();
         response.setId(savedProduct.getId());
