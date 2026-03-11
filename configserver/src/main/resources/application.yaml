@@ -13,7 +13,8 @@ spring:
       server:
         native:
 #          search-locations: classpath:/config
-          search-locations: file:///D:\spring-projects\embarkx\microservice-course\proyecto-microservicios\configserver\src\main\resources\config
+#          search-locations: file:///D:\spring-projects\embarkx\microservice-course\proyecto-microservicios\configserver\src\main\resources\config
+          search-locations: file:///D:\spring\microservicios\ecom-microservices\configserver\src\main\resources\config
 
 server:
   port: 8888
